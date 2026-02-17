@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gedesco - Case Study | Raúl Estévez</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e27;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gradient-border {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(59, 130, 246, 0.3), rgba(236, 72, 153, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .gradient-border:hover::before {
+            opacity: 1;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 bg-[#0a0e27]/80 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-xl font-serif tracking-wider hover:text-emerald-400 transition-colors">
+                ← REM
+            </a>
+            <div class="flex gap-8 text-sm tracking-wide">
+                <a href="index.html#about" class="hover:text-emerald-400 transition-colors">ABOUT</a>
+                <a href="index.html#work" class="hover:text-emerald-400 transition-colors">WORK</a>
+                <a href="index.html#contact" class="hover:text-emerald-400 transition-colors">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Two Columns) -->
+    <section
+        class="min-h-screen flex items-center justify-center relative overflow-hidden hero-gradient pt-32 pb-20 px-6">
+        <!-- Glowing orbs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-float"
+            style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto z-10 w-full">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <!-- Left Column - Text Content -->
+                <div class="fade-in-up">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Case Study</p>
+                    </div>
+
+                    <h1 class="font-serif text-6xl md:text-7xl mb-6 text-glow">
+                        Gedesco
+                    </h1>
+
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        Rediseño del sistema interno y transición tecnológica
+                    </p>
+
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        En Gedesco, financiera no bancaria especializada en soluciones de financiación para empresas,
+                        lideré el rediseño integral del sistema interno de gestión, en paralelo a un cambio de
+                        tecnología que modernizaba toda la plataforma.
+                    </p>
+                    <p class="text-gray-400 mb-12 leading-relaxed">
+                        El objetivo no era solo actualizar la interfaz, sino mejorar la eficiencia operativa, reducir
+                        fricción en procesos críticos y facilitar la transición hacia una nueva arquitectura
+                        tecnológica.
+                    </p>
+
+                    <!-- Metadata -->
+                    <div class="grid grid-cols-3 gap-6 mb-8">
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Rol</p>
+                            <p class="text-gray-300 font-medium">UX/UI Designer</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Año</p>
+                            <p class="text-gray-300 font-medium">04/2021 - 05/2023</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Duración</p>
+                            <p class="text-gray-300 font-medium">2 años</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Image Placeholder -->
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="glass-card rounded-3xl overflow-hidden gradient-border aspect-[4/5]">
+                        <div
+                            class="w-full h-full bg-gradient-to-br from-blue-900/40 via-cyan-900/40 to-blue-900/40 relative flex items-center justify-center">
+                            <!-- Placeholder content - will be replaced with actual image -->
+                            <div class="text-center p-12">
+                                <div class="text-8xl mb-6 opacity-20">🖼️</div>
+                                <p class="text-gray-500 text-sm">Imagen del proyecto</p>
+                                <p class="text-gray-600 text-xs mt-2">Añade aquí screenshot del dashboard o comparativa
+                                    antes/después</p>
+                            </div>
+
+                            <!-- Optional: Decorative elements -->
+                            <div class="absolute top-10 left-10 w-24 h-24 border border-white/10 rounded-lg"></div>
+                            <div class="absolute bottom-10 right-10 w-32 h-32 border border-white/10 rounded-full">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- My Role Section -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Mi Rol</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-8">
+                        Responsabilidades
+                    </h2>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Investigación y análisis del software legacy.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Entrevistas individuales con jefes de departamento.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Observación de flujos de trabajo reales.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Mapeo completo de procesos y user flows.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Creación de wireframes y prototipos interactivos.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Diseño de interfaz completa de todos los módulos.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Colaboración directa con equipo de desarrollo IT</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Testing iterativo con usuarios finales.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-8">
+                        Herramientas
+                    </h2>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-purple-500/20">Figma</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-purple-500/20">HTML</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-blue-500/20">Tailwind
+                            CSS</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-blue-500/20">Visual Studio
+                            Code</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-cyan-500/20">Notion</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-pink-500/20">Hotjar</span>
+                    </div>
+
+                    <div class="mt-12 glass-card p-6 rounded-2xl">
+                        <h3 class="text-lg font-semibold mb-3">Metodología</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Metodología ágil - Scrum - con sprints de 1 semana. Colaboración constante con el equipo de
+                            IT para asegurar viabilidad técnica y diseño centrado en el usuario.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Section -->
+    <section class="py-32 px-6 bg-[#08091f]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Research & Discovery</p>
+            </div>
+
+            <h2 class="font-serif text-4xl md:text-5xl mb-12">
+                Proceso de investigación
+            </h2>
+
+            <p class="text-xl text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                La clave del proyecto fue entender a fondo cómo trabajaban los diferentes departamentos.
+                Realicé un proceso de investigación exhaustivo en dos fases.
+            </p>
+
+            <!-- Research Process -->
+            <div class="space-y-8 mb-16">
+
+                <!-- Phase 1 -->
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center text-2xl font-bold">
+                                1
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-4">Fase 1: Entrevista con los responsables</h3>
+                            <p class="text-gray-400 mb-4">
+                                Reuniones individuales con cada responsable de departamento donde explicaron en detalle
+                                todos
+                                sus procesos, flujos de trabajo y necesidades específicas.
+                            </p>
+                            <p class="text-gray-400 mb-4">
+                                Las entrevistas no solo tenían como objetivo detectar problemas. También fueron mi punto
+                                de partida para entender el sistema en profundidad.
+                            </p>
+                            <ul class="space-y-2 text-gray-400">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">→</span>
+                                    <span>Qué funcionalidades existían realmente.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">→</span>
+                                    <span>Qué módulos eran críticos para el negocio.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-purple-400 mt-1">→</span>
+                                    <span>Qué procesos dependían directamente del sistema.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Phase 2 -->
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="w-16 h-16 rounded-full bg-purple-600/20 flex items-center justify-center text-2xl font-bold">
+                                2
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-4">Fase 2: Análisis de procesos - Testeo</h3>
+                            <p class="text-gray-400 mb-4">
+                                Tras cada reunión con los responsables de área, analizaba de forma individual los
+                                procesos explicados para descomponerlos paso a paso y entender su lógica real dentro del
+                                sistema. Esta fase funcionaba, en la práctica, como un testeo profundo de la herramienta
+                                antigua.
+                            </p>
+                            <p class="text-gray-400 mb-4">
+                                Durante esta fase, comenzaba a crear esquemas y wireframes en baja fidelidad. No eran
+                                soluciones finales, sino mapas mentales que me ayudaban a visualizar cómo debería
+                                reorganizarse el flujo y qué estructura tendría más sentido.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Phase 3 -->
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div class="flex-shrink-0">
+                            <div
+                                class="w-16 h-16 rounded-full bg-green-600/20 flex items-center justify-center text-2xl font-bold">
+                                3
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-4">Fase 3: Shadowing (Observación directa)</h3>
+                            <p class="text-gray-400 mb-4">
+                                Las entrevistas con responsables aportaron visión estratégica, pero para detectar
+                                fricciones reales era necesario analizar a los usuarios que utilizaban el sistema a
+                                diario.
+                            </p>
+                            <ul class="space-y-2 text-gray-400 mb-4">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-400 mt-1">→</span>
+                                    <span>Secuencia real de clics.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-400 mt-1">→</span>
+                                    <span>Uso de múltiples pestañas o herramientas externas.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-400 mt-1">→</span>
+                                    <span>Tiempos invertidos en tareas concretas.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-400 mt-1">→</span>
+                                    <span>Errores habituales.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-green-400 mt-1">→</span>
+                                    <span>Dependencia de memoria o experiencia previa.</span>
+                                </li>
+                            </ul>
+                            <p class="text-gray-400 mb-4">
+                                Durante varias sesiones acompañé a distintos perfiles mientras realizaban tareas reales
+                                dentro del programa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <div class="grid md:grid-cols-2 gap-16">
+                    <div class="mt-12 glass-card p-8 rounded-2xl">
+                        <div class="flex items-center gap-4 mt-6 mb-12">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Diseño & Prototipado</p>
+                        </div>
+                        <h2 class="font-serif text-4xl mb-8">
+                            Proceso de diseño
+                        </h2>
+                        <p class="text-lg text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                            A partir de los insights obtenidos durante la investigación,
+                            transformé
+                            los problemas detectados en decisiones de arquitectura y de interfaz.
+                        </p>
+                        <div>
+                            <h3 class="text-2xl font-medium mb-4">Principales decisiones de diseño</h3>
+                            <ul class="space-y-4 text-gray-400">
+                                <li class="flex items-start gap-2">
+                                    <span><span class="font-medium text-white">Interfaces más limpias y
+                                            jerarquizadas</span>: eliminé elementos innecesarios y resalté la
+                                        información crítica según prioridad de uso.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span><span class="font-medium text-white">Reducción de campos visibles mediante
+                                            lógica contextual</span>: cada pantalla mostraba solo los datos relevantes
+                                        para la tarea en curso, evitando sobrecarga cognitiva.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span><span class="font-medium text-white">Agrupación inteligente de
+                                            información</span>: organicé los datos según la lógica de procesos reales y
+                                        no según la estructura interna de la empresa.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span><span class="font-medium text-white">Creación de estados claros</span>: definí
+                                        visualmente errores, validaciones y procesos en curso para guiar al usuario en
+                                        todo momento.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span><span class="font-medium text-white">Estandarización de patrones de
+                                            interacción</span>: implementé consistencia en botones, formularios y
+                                        navegación para reducir la curva de aprendizaje.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-12 glass-card p-8 rounded-2xl">
+                        <div class="flex items-center gap-4 mt-6 mb-12">
+                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                            <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Test & Validación</p>
+                        </div>
+                        <h2 class="font-serif text-4xl mb-8">
+                            Proceso de validación
+                        </h2>
+                        <div>
+                            <p class="text-lg text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                                Antes de implementar la nueva versión del sistema, realicé un proceso estructurado de
+                                validación y testeo con los usuarios.
+                            </p>
+                            <div>
+                                <h3 class="text-2xl font-medium mb-4">Principales tareas</h3>
+                                <ul class="space-y-4 text-gray-400">
+                                    <li class="flex items-start gap-2">
+                                        <span><span class="font-medium text-white">Tests con usuarios reales</span>:
+                                            cada
+                                            pantalla mostraba solo los datos relevantes
+                                            para la tarea en curso, evitando sobrecarga cognitiva.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span><span class="font-medium text-white">Feedback y ajuste</span>: cada test
+                                            revelaba fricciones, dudas o pasos confusos, lo que permitió iterar
+                                            rápidamente
+                                            los flujos y pantallas.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span><span class="font-medium text-white">Iteración continua</span>: el diseño
+                                            evolucionó en paralelo con el desarrollo, ajustando elementos visuales,
+                                            microinteracciones y estados del sistema según la viabilidad técnica y
+                                            coherencia con la nueva arquitectura.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        </div>
+    </section>
+
+
+    <!-- Workflow Timeline Section -->
+    <section class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Metodología</p>
+            </div>
+
+            <h2 class="font-serif text-4xl md:text-5xl mb-8">
+                Proceso iterativo por departamento
+            </h2>
+
+            <p class="text-xl text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                Cada departamento pasó por un flujo de trabajo estructurado que garantizaba diseños validados
+                y centrados en las necesidades reales de los usuarios.
+            </p>
+
+            <!-- Timeline Container -->
+            <div class="relative">
+                <!-- Connecting Line (hidden on mobile) -->
+                <div
+                    class="hidden md:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-cyan-500 via-purple-500 via-pink-500 to-green-500 opacity-20">
+                </div>
+
+                <!-- Timeline Steps -->
+                <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+
+                    <!-- Step 1 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden gradient-border group hover:scale-105 transition-all duration-300">
+                        <div class="bg-gradient-to-br from-blue-600/20 to-blue-600/5 p-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-blue-600/30 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                1
+                            </div>
+                            <div class="text-4xl mb-3">👥</div>
+                            <h3 class="text-lg font-semibold mb-2">Entrevista</h3>
+                        </div>
+                        <div class="p-6 bg-[#08091f]/50">
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Reunión con el jefe de departamento para conocer el contexto y objetivos
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden gradient-border group hover:scale-105 transition-all duration-300">
+                        <div class="bg-gradient-to-br from-cyan-600/20 to-cyan-600/5 p-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-cyan-600/30 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                2
+                            </div>
+                            <div class="text-4xl mb-3">🔍</div>
+                            <h3 class="text-lg font-semibold mb-2">Análisis del Proceso</h3>
+                        </div>
+                        <div class="p-6 bg-[#08091f]/50">
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Documentación y mapeo de los flujos de trabajo actuales y pain points
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <!-- Step 4 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden gradient-border group hover:scale-105 transition-all duration-300">
+                        <div class="bg-gradient-to-br from-pink-600/20 to-pink-600/5 p-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-pink-600/30 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                3
+                            </div>
+                            <div class="text-4xl mb-3">👁️</div>
+                            <h3 class="text-lg font-semibold mb-2">Shadowing</h3>
+                        </div>
+                        <div class="p-6 bg-[#08091f]/50">
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Observación directa del equipo trabajando en su entorno real sin interrumpir
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden gradient-border group hover:scale-105 transition-all duration-300">
+                        <div class="bg-gradient-to-br from-violet-600/20 to-violet-600/5 p-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-violet-600/30 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                4
+                            </div>
+                            <div class="text-4xl mb-3">🎨</div>
+                            <h3 class="text-lg font-semibold mb-2">Diseño - Prototipado</h3>
+                        </div>
+                        <div class="p-6 bg-[#08091f]/50">
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Diseño visual completo con interacciones y prototipado final.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div
+                        class="glass-card rounded-2xl overflow-hidden gradient-border group hover:scale-105 transition-all duration-300">
+                        <div class="bg-gradient-to-br from-green-600/20 to-green-600/5 p-6">
+                            <div
+                                class="w-12 h-12 rounded-full bg-green-600/30 flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+                                5
+                            </div>
+                            <div class="text-4xl mb-3">✅</div>
+                            <h3 class="text-lg font-semibold mb-2">Test & Validación</h3>
+                        </div>
+                        <div class="p-6 bg-[#08091f]/50">
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Tests de usabilidad con usuarios reales para validar y refinar el diseño.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Design Process Section -->
+    <section class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Diseño & Prototipado</p>
+            </div>
+
+            <h2 class="font-serif text-4xl md:text-5xl mb-12">
+                Del wireframe al prototipo final
+            </h2>
+
+            <!-- Testimonials -->
+            <div class="glass-card p-12 rounded-3xl mb-16">
+                <p class="text-2xl text-gray-300 leading-relaxed">
+                    Por tratarse de un sistema interno de la empresa, no es posible mostrar los diseños por motivos de
+                    confidencialidad.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Project -->
+    <section class="py-32 px-6 bg-[#08091f]">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-sm text-gray-500 uppercase tracking-wider mb-4">Siguiente Proyecto</p>
+            <h2 class="font-serif text-5xl md:text-6xl mb-8">Studio IX</h2>
+            <p class="text-xl text-gray-400 mb-12">
+                Sistema de diseño completo para plataforma SaaS empresarial
+            </p>
+            <a href="case-study-studio-ix.html"
+                class="inline-flex items-center gap-3 px-10 py-5 bg-purple-600 hover:bg-purple-700 rounded-full transition-colors group">
+                <span class="text-sm tracking-wider">VER PROYECTO</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                    </path>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm text-gray-500">
+                © 2026 Raúl Estévez - Todos los derechos reservados
+            </div>
+            <div class="flex gap-8">
+                <a href="#about" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">About</a>
+                <a href="#work" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">Work</a>
+                <a href="#contact" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

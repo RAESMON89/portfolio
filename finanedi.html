@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanEDI - Case Study | Raúl Estévez</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0e27;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gradient-border {
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .gradient-border:hover::before {
+            opacity: 1;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 bg-[#0a0e27]/80 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-xl font-serif tracking-wider hover:text-emerald-400 transition-colors">
+                ← REM
+            </a>
+            <div class="flex gap-8 text-sm tracking-wide">
+                <a href="index.html#about" class="hover:text-emerald-400 transition-colors">ABOUT</a>
+                <a href="index.html#work" class="hover:text-emerald-400 transition-colors">WORK</a>
+                <a href="index.html#contact" class="hover:text-emerald-400 transition-colors">CONTACT</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="min-h-screen flex items-center justify-center relative overflow-hidden hero-gradient pt-32 pb-20 px-6">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl animate-float"
+            style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto z-10 w-full">
+            <div class="flex flex-col gap-16 items-center">
+
+                <!-- Left: Text -->
+                <div class="fade-in-up max-w-5xl ">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                        <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Case Study · Product Design</p>
+                    </div>
+
+                    <h1 class="font-serif text-6xl md:text-7xl mb-6 text-glow">
+                        FinanEDI
+                    </h1>
+
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        Diseño de nuevo producto
+                    </p>
+
+                    <p class="text-gray-400 mb-4 leading-relaxed">
+                        FinanEDI es un ERP diseñado para pymes y autónomos que simplifica la gestión financiera diaria a
+                        través de una experiencia clara, intuitiva y orientada a tareas reales de negocio.
+                    </p>
+                    <p class="text-gray-400 mb-12 leading-relaxed">
+                        El objetivo era crear una herramienta intuitiva que simplificara la gestión empresarial:
+                        facturación, contabilidad, gestión de clientes y procesos administrativos, adaptando la
+                        complejidad técnica a usuarios no expertos.
+                    </p>
+
+                    <!-- Metadata -->
+                    <div class="grid grid-cols-3 gap-6 mb-8">
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Rol</p>
+                            <p class="text-gray-300 font-medium">Diseñador de producto</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Año</p>
+                            <p class="text-gray-300 font-medium">05/2023 - 11/2025</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 uppercase tracking-wider text-xs mb-2">Duración</p>
+                            <p class="text-gray-300 font-medium">2 años 9 meses</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Image placeholder -->
+                <div class="fade-in-up" style="animation-delay: 0.2s;">
+                    <img src="img/board-finanedi.png" alt="">
+                </div>
+            </div>
+    </section>
+
+    <!-- My Role Section -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Mi Rol</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-8">
+                        Responsabilidades
+                    </h2>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Investigación de usuarios.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Definición de funcionalidades.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Diseño de flujos y arquitectura.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Creación de interfaces y prototipos.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Creación sistema de diseño.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-purple-400 mt-1">•</span>
+                            <span>Validación con usuarios.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="font-serif text-4xl md:text-5xl mb-8">
+                        Herramientas
+                    </h2>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-purple-500/20">Figma</span>
+                        <span
+                            class="glass-card px-5 py-3 rounded-full text-sm border border-purple-500/20">Freshdesk</span>
+                        <span
+                            class="glass-card px-5 py-3 rounded-full text-sm border border-cyan-500/20">Fullstory</span>
+                        <span class="glass-card px-5 py-3 rounded-full text-sm border border-pink-500/20">Clarity</span>
+                    </div>
+
+                    <div class="mt-12 glass-card p-6 rounded-2xl">
+                        <h3 class="text-lg font-semibold mb-3">Metodología</h3>
+                        <p class="text-gray-400 leading-relaxed">
+                            Metodología ágil - Scrum - con sprints de 1 semana. Colaboración constante con el equipo de
+                            innovación.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research: Competitive Analysis -->
+    <section class="py-32 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Investigación</p>
+            </div>
+
+            <h2 class="font-serif text-4xl md:text-5xl mb-12">
+                Análisis competitivo y MVP
+            </h2>
+
+            <p class="text-xl text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                El punto de partida fue un análisis exhaustivo del mercado de ERPs para pymes: qué ofrecía
+                la competencia, qué funcionalidades eran imprescindibles y cuál era el conjunto mínimo
+                viable para lanzar un producto diferenciador.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- Competitive Analysis -->
+                <div class="glass-card rounded-3xl overflow-hidden gradient-border">
+                    <div
+                        class="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center">
+                        <span class="text-8xl opacity-20">🔍</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-serif text-2xl mb-4">Análisis de competencia</h3>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            Analicé los principales ERPs del mercado para pymes: Holded, Billin, Contasimple,
+                            Quipu y Sage. Mapeé sus funcionalidades, flujos y puntos débiles.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>→ Mapa de funcionalidades por competidor</li>
+                            <li>→ Análisis de UX y flujos clave</li>
+                            <li>→ Identificación de gaps en el mercado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- MVP Definition -->
+                <div class="glass-card rounded-3xl overflow-hidden gradient-border">
+                    <div
+                        class="aspect-video bg-gradient-to-br from-emerald-900/20 to-blue-900/20 flex items-center justify-center">
+                        <span class="text-8xl opacity-20">🗺️</span>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="font-serif text-2xl mb-4">Definición del MVP</h3>
+                        <p class="text-gray-400 leading-relaxed mb-4">
+                            A partir del análisis, creé un mapa de funcionalidades priorizadas para definir
+                            el MVP que permitiría validar el producto con usuarios reales lo antes posible.
+                        </p>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>→ Priorización MoSCoW de funcionalidades</li>
+                            <li>→ Roadmap inicial de lanzamiento</li>
+                            <li>→ Validación con equipo de innovación</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-5xl mx-auto">
+            <p class="text-xl text-gray-400 mb-16 max-w-3xl leading-relaxed">
+                El problema de las Pymes y autónomos con la facturación.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-16 mb-16">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-red-400">Problemas del mercado</h3>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">×</span>
+                            <span>Facturas enviadas por email sin ningún tipo de verificación.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">×</span>
+                            <span>Ataques de phishing suplantando proveedores y clientes.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">×</span>
+                            <span>Falta de trazabilidad en el estado de las facturas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">×</span>
+                            <span>Contabilidad desconectada de la facturación.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-red-400 mt-1">×</span>
+                            <span>ERPs existentes demasiado complejos para pymes y autónomos.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold mb-6 text-emerald-400">Oportunidad detectada</h3>
+                    <ul class="space-y-4 text-gray-400">
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-400 mt-1">✓</span>
+                            <span>Canal propio y seguro para intercambio de facturas.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-400 mt-1">✓</span>
+                            <span>Doble verificación integrada en el flujo de aprobación.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-400 mt-1">✓</span>
+                            <span>Trazabilidad completa: enviada, recibida, aprobada, pagada.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-400 mt-1">✓</span>
+                            <span>Contabilidad automática vinculada a cada factura.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-emerald-400 mt-1">✓</span>
+                            <span>Onboarding simple sin curva de aprendizaje.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Design Process -->
+    <section class="py-32 px-6 bg-[#08091f]">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <p class="text-xs tracking-[0.3em] text-gray-400 uppercase">Proceso de diseño</p>
+            </div>
+
+            <h2 class="font-serif text-4xl md:text-5xl mb-12">
+                De la idea al producto
+            </h2>
+
+            <!-- Steps Timeline -->
+            <div class="space-y-6 mb-20">
+
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div
+                            class="w-16 h-16 rounded-full bg-emerald-600/20 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                            1</div>
+                        <div class="grid gap-6 flex-1">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Análisis competitivo</h3>
+                                <p class="text-sm text-gray-400">Benchmarking del mercado y mapa de funcionalidades para
+                                    definir el MVP.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div
+                            class="w-16 h-16 rounded-full bg-blue-600/20 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                            2</div>
+                        <div class="grid gap-6 flex-1">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Arquitectura y flujos</h3>
+                                <p class="text-sm text-gray-400">Definición de la arquitectura de información y flujos
+                                    principales del ERPf</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div
+                            class="w-16 h-16 rounded-full bg-purple-600/20 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                            3</div>
+                        <div class="grid gap-6 flex-1">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Wireframes & Prototipos</h3>
+                                <p class="text-sm text-gray-400">Diseño de wireframes de todas las pantallas y
+                                    prototipos interactivos para validación.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div
+                            class="w-16 h-16 rounded-full bg-cyan-600/20 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                            4</div>
+                        <div class="grid gap-6 flex-1">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Sistema de diseño</h3>
+                                <p class="text-sm text-gray-400">Creación de un sistema de diseño propio: componentes y
+                                    guías de uso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl gradient-border">
+                    <div class="flex items-start gap-6">
+                        <div
+                            class="w-16 h-16 rounded-full bg-green-600/20 flex items-center justify-center text-2xl font-bold flex-shrink-0">
+                            5</div>
+                        <div class="grid  gap-6 flex-1">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">Iteración continua</h3>
+                                <p class="text-sm text-gray-400">Ciclos de mejora junto al equipo de innovación basados
+                                    en datos y feedback real.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <h2 class="font-serif text-4xl md:text-5xl mb-12">Interfaz del producto</h2>
+                <div class="flex flex-col gap-20">
+                    <div class="flex flex-col">
+                        <h3 class="text-[#00DBAC] font-medium text-3xl mb-2">Creación de facturas</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">Diseño orientado a reducir errores y agilizar la
+                            generación de facturas mediante un flujo claro y estructurado.</p>
+                        <picture class="w-full">
+                            <img src="img/crear-factura.png" alt="">
+                        </picture>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="text-[#00DBAC] font-medium text-3xl mb-2">Catálogo online</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">Visualización clara del catálogo que facilita la
+                            selección de productos y la creación de pedidos, albaranes o facturas de forma rápida y
+                            eficiente.</p>
+                        <picture class="w-full">
+                            <img src="img/catalogo-online.png" alt="">
+                        </picture>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="text-[#00DBAC] font-medium text-3xl mb-2">Conciliación bancaria manual</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">Interfaz diseñada para facilitar la revisión y
+                            conciliación de movimientos, priorizando claridad y control del usuario.</p>
+                        <picture class="w-full">
+                            <img src="img/tesoreria-cuenta-bancaria.png" alt="">
+                        </picture>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="text-[#00DBAC] font-medium text-3xl mb-2">Conciliación bancaria automática</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">Automatización del proceso de conciliación para
+                            reducir tareas manuales y optimizar el tiempo del usuario.</p>
+                        <picture class="w-full">
+                            <img src="img/propuesta-concliacion.png" alt="">
+                        </picture>
+                    </div>
+                    <div class="flex flex-col">
+                        <h3 class="text-[#00DBAC] font-medium text-3xl mb-2">Balance de situación</h3>
+                        <p class="text-gray-400 leading-relaxed mb-8">Visualización estructurada de la información
+                            contable para una comprensión rápida del estado financiero del negocio.</p>
+                        <picture class="w-full">
+                            <img src="img/contabilidad-informe.png" alt="">
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Next Project -->
+    <section class="py-32 px-6 bg-[#08091f]">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="text-sm text-gray-500 uppercase tracking-wider mb-4">Siguiente Proyecto</p>
+            <h2 class="font-serif text-5xl md:text-6xl mb-8">Bravo Capital</h2>
+            <p class="text-xl text-gray-400 mb-12">
+                Optimización de experiencia digital en plataforma financiera para empresas
+            </p>
+            <a href="case-study-bravo-capital.html"
+                class="inline-flex items-center gap-3 px-10 py-5 bg-emerald-600 hover:bg-emerald-700 rounded-full transition-colors group">
+                <span class="text-sm tracking-wider">VER PROYECTO</span>
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+<footer class="py-12 px-6 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm text-gray-500">
+                © 2026 Raúl Estévez - Todos los derechos reservados
+            </div>
+            <div class="flex gap-8">
+                <a href="#about" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">About</a>
+                <a href="#work" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">Work</a>
+                <a href="#contact" class="text-sm text-gray-500 hover:text-purple-400 transition-colors">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
