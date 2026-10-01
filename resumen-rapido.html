@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>60 segundos sobre mí ·  Raúl Estévez Montero</title>
+<meta name="description" content="¿Con prisa? Un resumen de 60 segundos de Raúl, diseñador de producto, en formato historia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+  } catch (e) {}
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: {
+      fontFamily: { display: ['"Bricolage Grotesque"', 'sans-serif'], sans: ['"DM Sans"', 'sans-serif'] },
+      colors: {
+        paper: 'var(--paper)', surface: 'var(--surface)', ink: 'var(--ink)', muted: 'var(--muted)',
+        line: 'var(--line)', brand: 'var(--brand)', onbrand: 'var(--onbrand)',
+        mint: '#2ED3A5', sun: '#FFC93C', pink: '#FF6FAE'
+      }
+    } }
+  }
+</script>
+<style>
+  :root { --paper:#F7F7FB; --surface:#FFFFFF; --ink:#15172E; --muted:#5B5F7A; --line:#E3E5F0; --brand:#3A4BFF; --onbrand:#FFFFFF; }
+  html.dark { --paper:#0F1020; --surface:#171933; --ink:#F1F2FA; --muted:#A3A7C4; --line:#2A2D4F; --brand:#7C89FF; --onbrand:#0F1020; }
+  html, body { height: 100%; }
+  body { background: var(--ink); color: var(--onbrand); overflow: hidden; }
+  :focus-visible { outline: 3px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+  #stage { position: relative; height: 100dvh; max-width: 480px; margin: 0 auto; overflow: hidden; }
+  .slide { position: absolute; inset: 0; display: none; flex-direction: column; justify-content: center; padding: 2rem 1.75rem; }
+  .slide.active { display: flex; }
+  .zone { position: absolute; top: 0; bottom: 0; width: 33%; z-index: 20; }
+  .zone-prev { left: 0; }
+  .zone-next { right: 0; }
+
+  .bar-track { height: 3px; flex: 1; border-radius: 999px; background: rgba(255,255,255,.25); overflow: hidden; }
+  .bar-fill { height: 100%; width: 0%; background: #fff; border-radius: 999px; }
+  .bar-fill.filled { width: 100% !important; }
+
+  @media (prefers-reduced-motion: reduce) { .bar-fill { transition: none; } }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<div id="stage">
+  <div class="absolute left-0 right-0 top-0 z-30 flex gap-1.5 px-4 pt-4">
+    <div class="bar-track" data-bar="0"><div class="bar-fill"></div></div>
+    <div class="bar-track" data-bar="1"><div class="bar-fill"></div></div>
+    <div class="bar-track" data-bar="2"><div class="bar-fill"></div></div>
+    <div class="bar-track" data-bar="3"><div class="bar-fill"></div></div>
+    <div class="bar-track" data-bar="4"><div class="bar-fill"></div></div>
+  </div>
+  <div class="absolute left-0 right-0 top-8 z-30 flex items-center justify-between px-5">
+    <p class="text-sm font-bold opacity-90">⏱️ 60 segundos sobre Raúl</p>
+    <a href="index.html" aria-label="Salir e ir al portfolio completo" class="rounded-full bg-white/15 px-3 py-1.5 text-sm font-bold backdrop-blur">Cerrar ✕</a>
+  </div>
+  <button class="zone zone-prev" aria-label="Diapositiva anterior" type="button"></button>
+  <button class="zone zone-next" aria-label="Siguiente diapositiva" type="button"></button>
+  <section class="slide active bg-brand" data-slide="0">
+    <p class="text-sm font-bold uppercase tracking-wide opacity-80">60 SEGUNDOS, LO PROMETO</p>
+    <h1 class="mt-3 font-display text-5xl font-extrabold leading-[1.05] tracking-tight">Hola, soy Raúl 👋</h1>
+    <p class="mt-5 text-lg leading-relaxed opacity-90">Diseñador UX/UI + Product Designer</p>
+    <p class="mt-5 text-lg leading-relaxed opacity-90">Esto es la versión de bolsillo, por si hoy no tienes ni un minuto de sobra.</p>
+    <p class="mt-8 text-sm opacity-70">Toca a la derecha para seguir →</p>
+  </section>
+  <section class="slide bg-[#0c0e24]" data-slide="1">
+    <p class="text-sm font-bold uppercase tracking-wide text-mint">Qué me gusta hacer</p>
+    <h2 class="mt-3 font-display text-4xl font-extrabold leading-[1.05] tracking-tight">Convertir problemas complejos en interfaces claras, consistentes y fáciles de usar</h2>
+    <p class="mt-5 text-lg leading-relaxed opacity-80">Trabajo tanto la experiencia de usuario como el diseño de interfaces, buscando el equilibrio entre las necesidades del usuario y los objetivos del producto.</p>
+  </section>
+  <section class="slide bg-[#A259FF]" data-slide="2">
+    <p class="text-sm font-bold uppercase tracking-wide text-white">Herramientas que forman parte de mí</p>
+    <h2 class="mt-3 font-display text-8xl font-extrabold leading-[1.05] tracking-tight">Figma...</h2>
+    <p class="mt-5 text-lg leading-relaxed opacity-80">Podría hablarte de todas ellas, pero esto son 60 segundos.</p>
+  </section>
+  <section class="slide bg-[#15172E]" data-slide="3">
+    <p class="text-sm font-bold uppercase tracking-wide text-sun">Resultados, no solo diseños bonitos</p>
+    <div class="mt-6 space-y-4">
+      <div class="rounded-2xl bg-white/10 p-4"><p class="font-display text-2xl font-extrabold">−23% de abandono</p><p class="text-sm opacity-80">Optimización del flujo de registro y mejora de la experiencia de onboarding.</p></div>
+      <div class="rounded-2xl bg-white/10 p-4"><p class="font-display text-2xl font-extrabold">−46% de tiempo en la solicitud</p><p class="text-sm opacity-80">Rediseño del proceso de solicitud de factoring para hacerlo más ágil y eficiente.</p></div>
+      <div class="rounded-2xl bg-white/10 p-4"><p class="font-display text-2xl font-extrabold">+5.000 usuarios registrados</p><p class="text-sm opacity-80">en Aprende con Rey, mi propio proyecto.</p></div>
+    </div>
+  </section>
+  <section class="slide bg-mint text-[#15172E]" data-slide="4">
+    <p class="text-sm font-bold uppercase tracking-wide opacity-70">¡Eso es todo, amigos!</p>
+    <h2 class="mt-3 font-display text-4xl font-extrabold leading-[1.05] tracking-tight">Gracias por su tiempo</h2>
+    <p class="mt-4 text-lg leading-relaxed opacity-80">Para cuando tengas un poco más de tiempo: descubre el portfolio completo, con casos de estudio, procesos...</p>
+    <p class="mt-4 text-lg leading-relaxed opacity-80">¿Quieres ver más? El portfolio está a un clic.</p>
+    <div class="relative z-30 mt-8 flex flex-col gap-3">
+      <a href="index.html#trabajos" class="rounded-full bg-[#15172E] px-6 py-3.5 text-center font-bold text-onbrand">Ver el portfolio completo</a>
+      <button id="replayBtn" type="button" class="relative z-30 mt-1 text-sm font-bold underline underline-offset-4">Volver a verlo</button>
+    </div>
+  </section>
+</div>
+
+<script>
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bars = Array.prototype.slice.call(document.querySelectorAll('.bar-fill'));
+  var total = slides.length;
+  var duration = 12000; // 12s por slide, 60s en total
+  var current = 0;
+  var elapsed = 0;
+  var lastTime = null;
+  var paused = false;
+  var finished = false;
+  var rafId;
+
+  function showSlide(i) {
+    slides.forEach(function (s, idx) { s.classList.toggle('active', idx === i); });
+    bars.forEach(function (b, idx) {
+      b.classList.remove('filled');
+      b.style.width = idx < i ? '100%' : '0%';
+    });
+    current = i;
+    elapsed = 0;
+    lastTime = null;
+  }
+
+  function goTo(i) {
+    if (i < 0) i = 0;
+    if (i >= total) { finish(); return; }
+    showSlide(i);
+  }
+
+  function finish() {
+    finished = true;
+    showSlide(total - 1);
+    bars.forEach(function (b) { b.style.width = '100%'; });
+    cancelAnimationFrame(rafId);
+  }
+
+  function tick(time) {
+    if (finished) return;
+    if (!paused) {
+      if (lastTime === null) lastTime = time;
+      elapsed += time - lastTime;
+      lastTime = time;
+      var pct = Math.min(elapsed / duration, 1);
+      bars[current].style.width = (pct * 100) + '%';
+      if (elapsed >= duration) {
+        if (current === total - 1) { finish(); return; }
+        goTo(current + 1);
+      }
+    } else {
+      lastTime = time;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  document.querySelector('.zone-next').addEventListener('click', function () {
+    if (finished) return;
+    goTo(current + 1);
+  });
+  document.querySelector('.zone-prev').addEventListener('click', function () {
+    if (finished) return;
+    goTo(current - 1);
+  });
+
+  document.getElementById('stage').addEventListener('pointerdown', function (e) {
+    if (e.target.closest('a, button:not(.zone)')) return;
+    paused = true;
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (evt) {
+    document.getElementById('stage').addEventListener(evt, function () { paused = false; });
+  });
+
+  document.getElementById('replayBtn').addEventListener('click', function () {
+    finished = false;
+    goTo(0);
+    lastTime = null;
+    rafId = requestAnimationFrame(tick);
+  });
+
+  rafId = requestAnimationFrame(tick);
+</script>
+</body>
+</html>

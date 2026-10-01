@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FinanEDI, un ERP para pymes y autónomos</title>
+  <meta name="description"
+    content="Caso de estudio: diseño de FinanEDI, un ERP para pymes y autónomos que simplifica la facturación y la contabilidad. Diseño de producto durante casi tres años.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script>
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    } catch (e) { }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {display: ['"Bricolage Grotesque"', 'sans-serif'], sans: ['"DM Sans"', 'sans-serif']},
+          colors: {
+            paper: 'var(--paper)', surface: 'var(--surface)', ink: 'var(--ink)', muted: 'var(--muted)',
+            line: 'var(--line)', brand: 'var(--brand)', onbrand: 'var(--onbrand)',
+            mint: '#2ED3A5', sun: '#FFC93C', pink: '#FF6FAE'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --paper: #F7F7FB;
+      --surface: #FFFFFF;
+      --ink: #15172E;
+      --muted: #5B5F7A;
+      --line: #E3E5F0;
+      --brand: #3A4BFF;
+      --onbrand: #FFFFFF;
+    }
+
+    html.dark {
+      --paper: #0F1020;
+      --surface: #171933;
+      --ink: #F1F2FA;
+      --muted: #A3A7C4;
+      --line: #2A2D4F;
+      --brand: #7C89FF;
+      --onbrand: #0F1020;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .intro>* {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise .7s cubic-bezier(.2, .7, .2, 1) forwards;
+      }
+
+      .intro>*:nth-child(2) {
+        animation-delay: .08s;
+      }
+
+      .intro>*:nth-child(3) {
+        animation-delay: .16s;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    body {
+      cursor: none;
+    }
+
+    @media (hover: none) {
+      body {
+        cursor: auto;
+      }
+
+      #cursorDot {
+        display: none;
+      }
+    }
+
+    #cursorDot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      margin: -7px;
+      border-radius: 50%;
+      background: #2ED3A5;
+      pointer-events: none;
+      z-index: 999;
+      transition: width .18s, height .18s, margin .18s, background-color .3s;
+    }
+
+    #cursorDot.big {
+      width: 46px;
+      height: 46px;
+      margin: -23px;
+      background: color-mix(in srgb, #2ED3A5 35%, transparent);
+    }
+
+    #secretDot {
+      opacity: .18;
+      transition: opacity .3s;
+    }
+
+    #secretDot:hover,
+    #secretDot:focus-visible {
+      opacity: 1;
+    }
+
+    #secretPanel[hidden] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased">
+  <div id="cursorDot" aria-hidden="true"></div>
+
+  <a href="#contexto"
+    class="sr-only focus:not-sr-only focus:absolute focus:m-3 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-onbrand">Saltar
+    al contenido</a>
+  <header class="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <a href="index.html" class="font-display text-lg font-extrabold tracking-tight">Raúl Estévez Montero</a>
+      <nav aria-label="Principal" class="flex items-center gap-1 text-sm font-medium sm:gap-3">
+        <a href="index.html#trabajos" class="rounded-lg px-3 py-2 hover:bg-surface">Trabajos</a>
+        <a href="index.html#proceso" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Proceso</a>
+        <a href="index.html#sobre-mi" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Sobre mí</a>
+        <a href="index.html#contacto" class="rounded-lg px-3 py-2 hover:bg-surface">Contacto</a>
+        <button id="theme" type="button" class="rounded-full border border-line p-2 hover:bg-surface"
+          aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="mx-auto max-w-6xl px-5 pb-10 pt-12 lg:pt-16">
+      <a href="index.html#trabajos" class="text-sm font-bold text-brand underline underline-offset-4">Volver a los
+        trabajos</a>
+      <div class="intro mt-8 max-w-4xl">
+        <p class="text-muted">ERP · Nuevo producto · Diseño de producto</p>
+        <h1 class="mt-4 font-display text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl">FinanEDI: un ERP
+          que hace sencilla la gestión financiera de pymes y autónomos.</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">Diseñé desde cero un producto que reúne
+          facturación, contabilidad, clientes y procesos administrativos, y que adapta la complejidad técnica a personas
+          que no son expertas en finanzas.</p>
+      </div>
+      <div class="mt-10 flex min-h-72 items-center justify-center rounded-[2rem] bg-mint p-6 sm:min-h-96 sm:p-10"
+        aria-hidden="true">
+        <div class="w-full max-w-2xl rounded-3xl bg-surface p-5 shadow-2xl">
+          <div class="flex items-center justify-between">
+            <div class="h-3 w-28 rounded-full bg-ink/70"></div>
+            <div class="flex gap-2"><span class="h-6 w-6 rounded-full bg-pink"></span><span
+                class="h-6 w-6 rounded-full bg-mint"></span></div>
+          </div>
+          <div class="mt-5 grid grid-cols-3 gap-3">
+            <div class="rounded-2xl bg-brand p-4">
+              <div class="h-2.5 w-10 rounded-full bg-onbrand/70"></div>
+              <div class="mt-3 h-6 w-14 rounded-md bg-onbrand"></div>
+            </div>
+            <div class="rounded-2xl bg-line p-4">
+              <div class="h-2.5 w-10 rounded-full bg-muted/60"></div>
+              <div class="mt-3 h-6 w-14 rounded-md bg-muted/60"></div>
+            </div>
+            <div class="rounded-2xl bg-line p-4">
+              <div class="h-2.5 w-10 rounded-full bg-muted/60"></div>
+              <div class="mt-3 h-6 w-14 rounded-md bg-muted/60"></div>
+            </div>
+          </div>
+          <div class="mt-4 flex h-28 items-end gap-3 rounded-2xl bg-paper p-4"><span
+              class="h-10 flex-1 rounded bg-brand/40"></span><span class="h-16 flex-1 rounded bg-brand/60"></span><span
+              class="h-12 flex-1 rounded bg-brand/40"></span><span class="h-20 flex-1 rounded bg-brand"></span><span
+              class="h-14 flex-1 rounded bg-brand/60"></span></div>
+        </div>
+      </div>
+      <dl class="mt-8 grid grid-cols-2 gap-6 rounded-3xl border border-line bg-surface p-6 sm:p-8 md:grid-cols-4">
+        <div>
+          <dt class="text-sm text-muted">Mi rol</dt>
+          <dd class="mt-1 font-bold">Diseñador de producto</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Periodo</dt>
+          <dd class="mt-1 font-bold">Mayo de 2023 a noviembre de 2025</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Duración</dt>
+          <dd class="mt-1 font-bold">2 años y 9 meses</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Metodología</dt>
+          <dd class="mt-1 font-bold">Scrum, con sprints de una semana</dd>
+        </div>
+      </dl>
+    </section>
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 py-12 lg:grid-cols-[13rem_1fr]">
+      <aside class="hidden lg:block">
+        <nav aria-label="En esta página" class="sticky top-28">
+          <p class="font-bold">En este caso</p>
+          <ul class="mt-4 space-y-3 border-l border-line text-sm">
+            <li><a href="#contexto"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Contexto</a>
+            </li>
+            <li><a href="#rol"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Mi
+                rol</a></li>
+            <li><a href="#investigacion"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Investigación</a>
+            </li>
+            <li><a href="#problema"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Problema
+                y oportunidad</a></li>
+            <li><a href="#proceso"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Proceso</a>
+            </li>
+             <li><a href="#problema-lanzamiento"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Un problema tras el lanzamiento</a>
+            </li>
+            <li><a href="#interfaz"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Interfaz</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="max-w-2xl space-y-20">
+        <section id="contexto" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Contexto</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">FinanEDI es un ERP pensado para pymes y autónomos. El reto
+            era crear una herramienta intuitiva que simplificara la gestión del negocio sin obligar a nadie a aprender
+            contabilidad para usarla.</p>
+          <p class="mt-6 rounded-3xl bg-sun p-6 text-lg font-bold text-[#15172E]">¿Cómo dar a un autónomo la potencia de
+            un ERP con la sencillez de una herramienta de uso diario?</p>
+        </section>
+        <section id="rol" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Mi rol</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Fui el diseñador de producto durante todo el proyecto.
+            Estas fueron mis responsabilidades:</p>
+          <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+            <li class="rounded-2xl border border-line bg-surface p-4">Investigación de usuarios</li>
+            <li class="rounded-2xl border border-line bg-surface p-4">Definición de funcionalidades</li>
+            <li class="rounded-2xl border border-line bg-surface p-4">Diseño de flujos y arquitectura</li>
+            <li class="rounded-2xl border border-line bg-surface p-4">Interfaces y prototipos</li>
+            <li class="rounded-2xl border border-line bg-surface p-4">Creación del sistema de diseño</li>
+            <li class="rounded-2xl border border-line bg-surface p-4">Validación con usuarios</li>
+          </ul>
+          <h3 class="mt-8 text-xl font-bold">Herramientas</h3>
+          <ul class="mt-3 flex flex-wrap gap-3">
+            <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Figma</li>
+            <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Freshdesk</li>
+            <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Fullstory</li>
+            <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Clarity</li>
+          </ul>
+          <p class="mt-6 text-muted">Trabajé con metodología ágil, en sprints de una semana y con colaboración constante
+            con el equipo de innovación.</p>
+        </section>
+        <section id="investigacion" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Investigación: análisis
+            competitivo y MVP</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Empecé por un análisis del mercado de ERPs para pymes: qué
+            ofrecía la competencia, qué era imprescindible y cuál era el mínimo viable para lanzar un producto
+            diferenciador.</p>
+          <div class="mt-6 space-y-4">
+            <article class="rounded-2xl border border-line bg-surface p-5">
+              <h3 class="font-bold">Análisis de la competencia</h3>
+              <p class="mt-1 text-muted">Estudié Holded, Billin, Contasimple, Quipu y Sage: sus funciones, sus flujos y
+                sus puntos débiles.</p>
+              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
+                <li>Mapa de funcionalidades por competidor.</li>
+                <li>Análisis de UX y de los flujos clave.</li>
+                <li>Identificación de huecos en el mercado.</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl border border-line bg-surface p-5">
+              <h3 class="font-bold">Definición del MVP</h3>
+              <p class="mt-1 text-muted">Con el análisis armé un mapa de funciones priorizadas para validar el producto
+                con usuarios reales cuanto antes.</p>
+              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
+                <li>Priorización MoSCoW de las funcionalidades.</li>
+                <li>Roadmap inicial de lanzamiento.</li>
+                <li>Validación con el equipo de innovación.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section id="problema" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">El problema de la facturación</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Las pymes y los autónomos gestionaban sus facturas con
+            herramientas que no encajaban con su día a día. De ahí salió la oportunidad.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl border border-line bg-surface p-6">
+              <h3 class="font-display text-2xl font-extrabold tracking-tight">Lo que fallaba</h3>
+              <ul class="mt-4 space-y-3 text-muted">
+                <li class="flex gap-3"><span class="font-bold text-pink" aria-hidden="true">×</span>Facturas enviadas
+                  por email sin verificación.</li>
+                <li class="flex gap-3"><span class="font-bold text-pink" aria-hidden="true">×</span>Phishing que
+                  suplanta a proveedores y clientes.</li>
+                <li class="flex gap-3"><span class="font-bold text-pink" aria-hidden="true">×</span>Sin trazabilidad del
+                  estado de cada factura.</li>
+                <li class="flex gap-3"><span class="font-bold text-pink" aria-hidden="true">×</span>Contabilidad
+                  desconectada de la facturación.</li>
+                <li class="flex gap-3"><span class="font-bold text-pink" aria-hidden="true">×</span>ERPs demasiado
+                  complejos para su tamaño.</li>
+              </ul>
+            </div>
+            <div class="rounded-3xl bg-mint p-6 text-[#15172E]">
+              <h3 class="font-display text-2xl font-extrabold tracking-tight">La oportunidad</h3>
+              <ul class="mt-4 space-y-3">
+                <li class="flex gap-3"><span class="font-bold" aria-hidden="true">✓</span>Un canal propio y seguro para
+                  intercambiar facturas.</li>
+                <li class="flex gap-3"><span class="font-bold" aria-hidden="true">✓</span>Doble verificación integrada
+                  en la aprobación.</li>
+                <li class="flex gap-3"><span class="font-bold" aria-hidden="true">✓</span>Trazabilidad completa:
+                  enviada, recibida, aprobada y pagada.</li>
+                <li class="flex gap-3"><span class="font-bold" aria-hidden="true">✓</span>Contabilidad automática
+                  vinculada a cada factura.</li>
+                <li class="flex gap-3"><span class="font-bold" aria-hidden="true">✓</span>Onboarding simple, sin curva
+                  de aprendizaje.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section id="proceso" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">De la idea al producto</h2>
+          <ol class="mt-8 space-y-6">
+            <li class="flex gap-4"><span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand font-bold text-onbrand">1</span>
+              <div>
+                <h3 class="font-bold">Análisis competitivo</h3>
+                <p class="text-muted">Benchmarking del mercado y mapa de funcionalidades para definir el MVP.</p>
+              </div>
+            </li>
+            <li class="flex gap-4"><span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sun font-bold text-[#15172E]">2</span>
+              <div>
+                <h3 class="font-bold">Arquitectura y flujos</h3>
+                <p class="text-muted">Definición de la arquitectura de información y de los flujos principales del ERP.
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-4"><span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mint font-bold text-[#15172E]">3</span>
+              <div>
+                <h3 class="font-bold">Wireframes y prototipos</h3>
+                <p class="text-muted">Wireframes de todas las pantallas y prototipos interactivos para validar.</p>
+              </div>
+            </li>
+            <li class="flex gap-4"><span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pink font-bold text-[#15172E]">4</span>
+              <div>
+                <h3 class="font-bold">Sistema de diseño</h3>
+                <p class="text-muted">Un sistema propio con componentes y guías de uso.</p>
+              </div>
+            </li>
+            <li class="flex gap-4"><span
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand font-bold text-onbrand">5</span>
+              <div>
+                <h3 class="font-bold">Iteración continua</h3>
+                <p class="text-muted">Ciclos de mejora con el equipo de innovación, basados en datos y feedback real.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+        <section id="problema-lanzamiento" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Un problema tras el lanzamiento
+          </h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Con el producto ya en producción, detectamos una
+            discrepancia importante en el registro: la web recibía muchos clics en los botones de alta, pero una parte
+            mucho menor de esos usuarios terminaba completando el proceso.</p>
+          <p class="mt-5 text-lg leading-relaxed text-muted">El objetivo era entender en qué punto se producía el
+            abandono y por qué.</p>
+          <h3 class="mt-8 text-xl font-bold">Cómo identificamos el problema</h3>
+          <p class="mt-3 text-muted">Revisamos grabaciones de sesiones reales para analizar el comportamiento de los
+            usuarios durante el registro.</p>
+          <p class="mt-3 text-muted">El patrón se repetía: la mayoría avanzaba con normalidad hasta llegar al
+            campo del DNI. En ese punto aumentaban los abandonos de forma significativa.</p>
+          <p class="mt-6 rounded-3xl bg-sun p-6 text-lg font-bold text-[#15172E]">¿Cómo podemos solicitar un dato
+            obligatorio y sensible sin convertirlo en una barrera para completar el registro?</p>
+          <h3 class="mt-8 text-xl font-bold">La restricción</h3>
+          <p class="mt-3 text-muted">El DNI era un dato obligatorio para completar el alta por requisitos normativos,
+            por lo que eliminarlo o hacerlo opcional no era una alternativa.</p>
+          <p class="mt-3 text-muted">La solución tenía que estar, por tanto, en cómo y cuándo pedirlo, no en eliminarlo
+            del proceso.</p>
+          <h3 class="mt-8 text-xl font-bold">La solución</h3>
+          <p class="mt-3 text-muted">Decidimos dividir el registro en varios pasos y trasladar el DNI al final del
+            proceso.</p>
+          <p class="mt-3 text-muted">En lugar de solicitarlo junto al resto de información inicial, primero permitimos
+            que el usuario avanzara por los datos necesarios para comenzar el alta y dejamos el DNI como uno de los
+            últimos pasos.</p>
+          <p class="mt-3 text-muted">El cambio buscaba reducir la fricción inicial y evitar que un campo sensible
+            apareciera demasiado pronto en el proceso.</p>
+          <h3 class="mt-8 text-xl font-bold">¿Por qué pensamos que podía funcionar?</h3>
+          <p class="mt-3 text-muted">La decisión de trasladar el DNI al final del registro se
+            apoyó en el Goal-Gradient Effect, o efecto gradiente de objetivo.</p>
+          <figure class="mt-8 border-l-4 border-mint pl-6">
+            <blockquote class="text-lg font-medium leading-relaxed">Cuanto más cerca está una persona de alcanzar un
+              objetivo, mayor suele ser su motivación para completar lo que queda.</blockquote>
+            <figcaption class="mt-3 text-sm text-muted">Goal-Gradient Effect
+            </figcaption>
+          </figure>
+          <p class="mt-8 text-muted">Nuestra hipótesis era que, si el usuario encontraba el DNI
+            demasiado pronto, podía convertirse en una barrera antes de haber avanzado en el proceso. Al trasladarlo al
+            final, el usuario ya había completado varios pasos y estaba más cerca de finalizar su registro.</p>
+          <article class="rounded-2xl border border-line bg-surface p-8 mt-8">
+            <h3 class="text-xl font-bold">Resultado</h3>
+            <p class="mt-3 text-muted">Después del cambio observamos una mejora en el comportamiento del registro:</p>
+            <ul class="mt-4 space-y-3 text-muted">
+              <li class="flex gap-3"><span class="font-bold text-xl" aria-hidden="true">·</span>El número de usuarios
+                que iniciaban el proceso se alineaba mucho más con los que completaban el primer paso.</li>
+              <li class="flex gap-3"><span class="font-bold text-xl" aria-hidden="true">·</span>El abandono seguía
+                produciéndose en algunos casos al solicitar el DNI, pero se redujo respecto al flujo anterior.</li>
+              <li class="flex gap-3"><span class="font-bold text-xl" aria-hidden="true">·</span>La tasa de
+                finalización
+                del registro aumentó.</li>
+            </ul>
+          </article>
+          <p class="mt-6 text-muted">La solución no consistió en eliminar una información necesaria, sino en replantear
+            el momento en el que se solicitaba.</p>
+        </section>
+        <section id="interfaz" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Interfaz del producto</h2>
+          <div class="mt-8 space-y-12">
+            <figure>
+              <h3 class="text-xl font-bold">Creación de facturas</h3>
+              <p class="mt-1 text-muted">Un flujo claro y estructurado que reduce errores y agiliza la emisión.</p>
+              <img src="img/crear-factura.png"
+                alt="Pantalla de creación de facturas" loading="lazy"
+                class="mt-4 w-full rounded-2xl border border-line">
+            </figure>
+            <figure>
+              <h3 class="text-xl font-bold">Catálogo online</h3>
+              <p class="mt-1 text-muted">Un catálogo fácil de recorrer para crear pedidos, albaranes o facturas con
+                rapidez.</p>
+              <img src="img/catalogo-online.png"
+                alt="Pantalla del catálogo online de productos" loading="lazy"
+                class="mt-4 w-full rounded-2xl border border-line">
+            </figure>
+            <figure>
+              <h3 class="text-xl font-bold">Conciliación bancaria manual</h3>
+              <p class="mt-1 text-muted">Una interfaz para revisar y conciliar movimientos, con claridad y control para
+                el usuario.</p>
+              <img src="img/tesoreria-cuenta-bancaria.png"
+                alt="Pantalla de conciliación bancaria manual" loading="lazy"
+                class="mt-4 w-full rounded-2xl border border-line">
+            </figure>
+            <figure>
+              <h3 class="text-xl font-bold">Conciliación bancaria automática</h3>
+              <p class="mt-1 text-muted">La conciliación se automatiza para reducir tareas manuales y ahorrar tiempo.
+              </p>
+              <img src="img/propuesta-concliacion.png"
+                alt="Pantalla de propuesta de conciliación automática" loading="lazy"
+                class="mt-4 w-full rounded-2xl border border-line">
+            </figure>
+            <figure>
+              <h3 class="text-xl font-bold">Balance de situación</h3>
+              <p class="mt-1 text-muted">La información contable, ordenada para entender de un vistazo cómo está el
+                negocio.</p>
+              <img src="img/contabilidad-informe.png"
+                alt="Pantalla del informe de balance de situación" loading="lazy"
+                class="mt-4 w-full rounded-2xl border border-line">
+            </figure>
+          </div>
+        </section>
+      </div>
+    </div>
+    <section class="mx-auto max-w-6xl px-5 py-12">
+      <div class="grid gap-4 sm:grid-cols-2">
+          <a href="index.html#trabajos" class="rounded-3xl bg-mint p-7 text-[#15172E] hover:opacity-90">
+          <p class="text-sm">Volver</p>
+          <p class="mt-1 font-display text-2xl font-extrabold tracking-tight">Todos los trabajos</p>
+        </a>
+        <a href="proyecto-carback.html" class="rounded-3xl border border-line bg-surface p-7 hover:border-brand">
+          <p class="text-sm text-muted">Caso siguiente</p>
+          <p class="mt-1 font-display text-2xl font-extrabold tracking-tight">Carback</p>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer id="contacto" class="mt-10 bg-brand text-onbrand">
+    <div class="mx-auto max-w-6xl px-5 py-20">
+      <h2 class="font-display text-5xl font-extrabold tracking-tight sm:text-6xl">¿Hablamos?</h2>
+      <p class="mt-4 max-w-lg text-lg opacity-90">Si has llegado hasta aquí, ¿por qué no seguimos hablando?</p>
+      <a href="mailto:raesmon89@gmail.com"
+        class="mt-8 inline-block rounded-full bg-onbrand px-8 py-4 font-bold text-brand hover:opacity-90">raesmon89@gmail.com</a>
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-medium underline underline-offset-4">
+        <li><a href="https://www.linkedin.com/in/raul-estevez-montero/" target="_blank"
+            rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://www.behance.net/rem89" target="_blank" rel="noopener noreferrer">Behance</a></li>
+      </ul>
+      <p class="mt-12 text-sm opacity-80">© 2026 Raúl Estévez Montero</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('theme').addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      try {localStorage.setItem('theme', dark ? 'dark' : 'light');} catch (e) { }
+    });
+    // Cursor reactivo
+    var dot = document.getElementById('cursorDot');
+    var dotX = 0, dotY = 0, mouseX = 0, mouseY = 0;
+    var hasFinePointer = matchMedia('(hover: hover)').matches;
+    if (hasFinePointer) {
+      window.addEventListener('mousemove', function (e) {mouseX = e.clientX; mouseY = e.clientY;});
+      (function loop() {
+        dotX += (mouseX - dotX) * 0.2;
+        dotY += (mouseY - dotY) * 0.2;
+        dot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a, button').forEach(function (el) {
+        el.addEventListener('mouseenter', function () {dot.classList.add('big');});
+        el.addEventListener('mouseleave', function () {dot.classList.remove('big');});
+      });
+    }
+
+    // Secreto oculto
+    var secretDot = document.getElementById('secretDot');
+    var secretPanel = document.getElementById('secretPanel');
+    secretDot.addEventListener('click', function () {secretPanel.hidden = false;});
+    document.getElementById('secretClose').addEventListener('click', function () {secretPanel.hidden = true;});
+  </script>
+</body>
+
+</html>

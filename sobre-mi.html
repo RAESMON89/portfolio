@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobre mí · Raúl Estévez Montero</title>
+  <meta name="description"
+    content="Raúl, diseñador de producto con 9 años de experiencia. Trayectoria, formación e idiomas.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script>
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    } catch (e) { }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {display: ['"Bricolage Grotesque"', 'sans-serif'], sans: ['"DM Sans"', 'sans-serif']},
+          colors: {
+            paper: 'var(--paper)', surface: 'var(--surface)', ink: 'var(--ink)', muted: 'var(--muted)',
+            line: 'var(--line)', brand: 'var(--brand)', onbrand: 'var(--onbrand)',
+            mint: '#2ED3A5', sun: '#FFC93C', pink: '#FF6FAE'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --paper: #F7F7FB;
+      --surface: #FFFFFF;
+      --ink: #15172E;
+      --muted: #5B5F7A;
+      --line: #E3E5F0;
+      --brand: #3A4BFF;
+      --onbrand: #FFFFFF;
+    }
+
+    html.dark {
+      --paper: #0F1020;
+      --surface: #171933;
+      --ink: #F1F2FA;
+      --muted: #A3A7C4;
+      --line: #2A2D4F;
+      --brand: #7C89FF;
+      --onbrand: #0F1020;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .intro>* {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise .7s cubic-bezier(.2, .7, .2, 1) forwards;
+      }
+
+      .intro>*:nth-child(2) {
+        animation-delay: .08s;
+      }
+
+      .intro>*:nth-child(3) {
+        animation-delay: .16s;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    body {
+      cursor: none;
+    }
+
+    @media (hover: none) {
+      body {
+        cursor: auto;
+      }
+
+      #cursorDot {
+        display: none;
+      }
+    }
+
+    #cursorDot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      margin: -7px;
+      border-radius: 50%;
+      background: #2ED3A5;
+      pointer-events: none;
+      z-index: 999;
+      transition: width .18s, height .18s, margin .18s, background-color .3s;
+    }
+
+    #cursorDot.big {
+      width: 46px;
+      height: 46px;
+      margin: -23px;
+      background: color-mix(in srgb, #2ED3A5 35%, transparent);
+    }
+
+    #secretDot {
+      opacity: .18;
+      transition: opacity .3s;
+    }
+
+    #secretDot:hover,
+    #secretDot:focus-visible {
+      opacity: 1;
+    }
+
+    #secretPanel[hidden] {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased">
+  <div id="cursorDot" aria-hidden="true"></div>
+
+  <a href="#presentacion"
+    class="sr-only focus:not-sr-only focus:absolute focus:m-3 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-onbrand">Saltar
+    al contenido</a>
+  <header class="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <a href="index.html" class="font-display text-lg font-extrabold tracking-tight">Raúl Estévez Montero</a>
+      <nav aria-label="Principal" class="flex items-center gap-1 text-sm font-medium sm:gap-3">
+        <a href="index.html#trabajos" class="rounded-lg px-3 py-2 hover:bg-surface">Trabajos</a>
+        <a href="index.html#proceso" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Proceso</a>
+        <a href="index.html#sobre-mi" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Sobre mí</a>
+        <a href="index.html#contacto" class="rounded-lg px-3 py-2 hover:bg-surface">Contacto</a>
+        <button id="theme" type="button" class="rounded-full border border-line p-2 hover:bg-surface"
+          aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="presentacion"
+      class="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-14 md:grid-cols-12 lg:pt-20">
+      <div class="relative mx-auto w-full max-w-xs md:col-span-4" aria-hidden="true">
+        <div
+          class="flex aspect-square items-center justify-center rounded-[3rem] bg-pink font-display text-8xl font-extrabold text-[#15172E]">
+          RE</div>
+        <span class="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-sun"></span>
+        <span class="absolute -bottom-4 -left-4 h-12 w-12 rotate-12 rounded-2xl bg-mint"></span>
+      </div>
+      <div class="intro md:col-span-8">
+        <p class="text-muted">Sobre mí</p>
+        <h1 class="mt-3 font-display text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl">Hola, soy Raúl
+          👋</h1>
+        <div class="mt-6 max-w-2xl space-y-4 text-lg leading-relaxed text-muted">
+          <p>Diseñador UX/UI y Product Designer con más de 8 años de experiencia creando productos digitales. He
+            trabajado en proyectos muy diferentes, desde herramientas financieras y plataformas internas hasta productos
+            educativos.</p>
+          <p>Me gusta entender cómo funcionan las cosas, detectar dónde está el problema y convertirlo en una
+            experiencia sencilla, clara y útil. Disfruto especialmente de la parte más visual del diseño: crear
+            interfaces, sistemas de diseño y productos que sean fáciles de usar y consistentes.</p>
+          <p>Cuando no estoy diseñando, probablemente me encuentres en el gimnasio, jugando al futbolín o tomando algo
+            con el equipo de desarrollo (porque sí, llevarse bien con los developers también es parte del proceso 😉).
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="mx-auto max-w-6xl px-5 py-12">
+      <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Proyectos en los que he trabajado</h2>
+      <ul class="mt-6 flex flex-wrap gap-3">
+        <li><a href="proyecto-finanedi.html"
+            class="block rounded-full bg-brand px-5 py-2 font-medium text-onbrand hover:opacity-90">FinanEDI</a></li>
+        <li><a href="proyecto-aprende-con-rey.html"
+            class="block rounded-full bg-brand px-5 py-2 font-medium text-onbrand hover:opacity-90">Aprende con Rey</a>
+        </li>
+        <li><a href="proyecto-bravo-capital.html"
+            class="block rounded-full bg-brand px-5 py-2 font-medium text-onbrand hover:opacity-90">Bravo Capital</a>
+        </li>
+        <li><a href="proyecto-gedesco.html"
+            class="block rounded-full bg-brand px-5 py-2 font-medium text-onbrand hover:opacity-90">Gedesco</a></li>
+        <li><a href="proyecto-carback.html"
+            class="block rounded-full bg-brand px-5 py-2 font-medium text-onbrand hover:opacity-90">Carback</a></li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Infonif</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Loonfy</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Sich</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Adelanto</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Economía 3</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Mujeres al Timón</li>
+        <li class="rounded-full border border-line bg-surface px-5 py-2 font-medium">Uemura</li>
+      </ul>
+      <p class="mt-4 text-sm text-muted">Los proyectos en azul tienen su caso de estudio.</p>
+    </section>
+    <section id="trayectoria" class="mx-auto max-w-6xl scroll-mt-28 px-5 py-16">
+      <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Trayectoria</h2>
+      <ol class="ml-3 mt-10 max-w-2xl space-y-10 border-l border-line">
+        <li class="relative pl-8">
+          <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-mint" aria-hidden="true"></span>
+          <p class="text-sm text-muted">Proyecto propio · Lanzada en noviembre de 2025</p>
+          <h3 class="mt-1 text-xl font-bold">Producto, UX/UI y contenido en Aprende con Rey</h3>
+          <p class="mt-2 text-muted">Una plataforma de ajedrez para niños. Llevo la estrategia de producto, el diseño,
+            el contenido y el negocio.</p>
+          <a href="caso-4.html" class="mt-2 inline-block font-bold text-brand underline underline-offset-4">Ver el
+            caso<span class="sr-only">: Aprende con Rey</span></a>
+        </li>
+        <li class="relative pl-8">
+          <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-brand" aria-hidden="true"></span>
+          <p class="text-sm text-muted">Mayo de 2023 a noviembre de 2025 · 2 años y 9 meses</p>
+          <h3 class="mt-1 text-xl font-bold">Diseñador de producto en FinanEDI</h3>
+          <p class="mt-2 text-muted">Diseñé desde cero un ERP para pymes y autónomos: investigación, flujos, interfaces,
+            prototipos y sistema de diseño.</p>
+          <a href="caso-5.html" class="mt-2 inline-block font-bold text-brand underline underline-offset-4">Ver el
+            caso<span class="sr-only">: FinanEDI</span></a>
+        </li>
+        <li class="relative pl-8">
+          <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-sun" aria-hidden="true"></span>
+          <p class="text-sm text-muted">Mayo de 2023 a noviembre de 2025 · 2 años y 9 meses</p>
+          <h3 class="mt-1 text-xl font-bold">Diseñador UX/UI en Bravo Capital</h3>
+          <p class="mt-2 text-muted">Rediseñé los procesos financieros de una financiera no bancaria.</p>
+          <a href="caso-6.html" class="mt-2 inline-block font-bold text-brand underline underline-offset-4">Ver el
+            caso<span class="sr-only">: Carback</span></a>
+        </li>
+        <li class="relative pl-8">
+          <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-sun" aria-hidden="true"></span>
+          <p class="text-sm text-muted">Abril de 2021 a mayo de 2023 · 2 años</p>
+          <h3 class="mt-1 text-xl font-bold">Diseñador UX/UI en Gedesco</h3>
+          <p class="mt-2 text-muted">Lideré el rediseño integral del sistema de gestión de una financiera no bancaria
+            especializada en soluciones de financiación para empresas. </p>
+          <a href="caso-6.html" class="mt-2 inline-block font-bold text-brand underline underline-offset-4">Ver el
+            caso<span class="sr-only">: Carback</span></a>
+        </li>
+        <li class="relative pl-8">
+          <span class="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full bg-pink" aria-hidden="true"></span>
+          <p class="text-sm text-muted">Mayo de 2016 a Abril de 2021 · 5 años </p>
+          <h3 class="mt-1 text-xl font-bold">Diseñador UX/UI & Digital</h3>
+          <p class="mt-2 text-muted">Diseñé experiencias digitales y contenidos multimedia, combinando UX/UI, diseño editorial y comunicación visual.</p>
+        </li>
+      </ol>
+    </section>
+    <section class="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:grid-cols-2">
+      <div>
+        <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Cursos</h2>
+        <ul class="mt-8 space-y-4">
+          <li class="rounded-2xl border border-line bg-surface p-5">
+            <p class="text-sm text-muted">2026</p>
+            <p class="font-bold">Inteligencia artificial (IA) en el audiovisual</p>
+            <p class="text-muted">Radiotelevisión Española</p>
+          </li>
+          <li class="rounded-2xl border border-line bg-surface p-5">
+            <p class="text-sm text-muted">2023</p>
+            <p class="font-bold">Máster profesional de maquetación web y frameworks CSS</p>
+            <p class="text-muted">Asociación Española de Programadores Informáticos</p>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Formación</h2>
+        <ul class="mt-8 space-y-4">
+          <li class="rounded-2xl border border-line bg-surface p-5">
+            <p class="text-sm text-muted">2015</p>
+            <p class="font-bold">Máster en Postproducción digital</p>
+            <p class="text-muted">Universitat Politècnica de València (UPV)</p>
+          </li>
+          <li class="rounded-2xl border border-line bg-surface p-5">
+            <p class="text-sm text-muted">2014</p>
+            <p class="font-bold">Grado Comunicación audiovisual</p>
+            <p class="text-muted">Universidad Complutense de Madrid</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <footer id="contacto" class="mt-10 bg-brand text-onbrand">
+    <div class="mx-auto max-w-6xl px-5 py-20">
+      <h2 class="font-display text-5xl font-extrabold tracking-tight sm:text-6xl">¿Hablamos?</h2>
+      <p class="mt-4 max-w-lg text-lg opacity-90">Si has llegado hasta aquí, ¿por qué no seguimos hablando?</p>
+      <a href="mailto:raesmon89@gmail.com"
+        class="mt-8 inline-block rounded-full bg-onbrand px-8 py-4 font-bold text-brand hover:opacity-90">raesmon89@gmail.com</a>
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-medium underline underline-offset-4">
+        <li><a href="https://www.linkedin.com/in/raul-estevez-montero/" target="_blank"
+            rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://www.behance.net/rem89" target="_blank" rel="noopener noreferrer">Behance</a></li>
+      </ul>
+      <p class="mt-12 text-sm opacity-80">© 2026 Raúl Estévez Montero</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('theme').addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      try {localStorage.setItem('theme', dark ? 'dark' : 'light');} catch (e) { }
+    });
+    // Cursor reactivo
+    var dot = document.getElementById('cursorDot');
+    var dotX = 0, dotY = 0, mouseX = 0, mouseY = 0;
+    var hasFinePointer = matchMedia('(hover: hover)').matches;
+    if (hasFinePointer) {
+      window.addEventListener('mousemove', function (e) {mouseX = e.clientX; mouseY = e.clientY;});
+      (function loop() {
+        dotX += (mouseX - dotX) * 0.2;
+        dotY += (mouseY - dotY) * 0.2;
+        dot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
+        requestAnimationFrame(loop);
+      })();
+      document.querySelectorAll('a, button').forEach(function (el) {
+        el.addEventListener('mouseenter', function () {dot.classList.add('big');});
+        el.addEventListener('mouseleave', function () {dot.classList.remove('big');});
+      });
+    }
+
+    // Secreto oculto
+    var secretDot = document.getElementById('secretDot');
+    var secretPanel = document.getElementById('secretPanel');
+    secretDot.addEventListener('click', function () {secretPanel.hidden = false;});
+    document.getElementById('secretClose').addEventListener('click', function () {secretPanel.hidden = true;});
+  </script>
+</body>
+
+</html>
