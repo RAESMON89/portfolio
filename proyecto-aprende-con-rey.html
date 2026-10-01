@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aprende con Rey, plataforma de ajedrez para niños</title>
+  <meta name="description"
+    content="Proyecto propio: una plataforma educativa de ajedrez para colegios, clubes y entrenadores. Producto, UX/UI, contenido y negocio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script>
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    } catch (e) { }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {display: ['"Bricolage Grotesque"', 'sans-serif'], sans: ['"DM Sans"', 'sans-serif']},
+          colors: {
+            paper: 'var(--paper)', surface: 'var(--surface)', ink: 'var(--ink)', muted: 'var(--muted)',
+            line: 'var(--line)', brand: 'var(--brand)', onbrand: 'var(--onbrand)',
+            mint: '#2ED3A5', sun: '#FFC93C', pink: '#FF6FAE'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --paper: #F7F7FB;
+      --surface: #FFFFFF;
+      --ink: #15172E;
+      --muted: #5B5F7A;
+      --line: #E3E5F0;
+      --brand: #3A4BFF;
+      --onbrand: #FFFFFF;
+    }
+
+    html.dark {
+      --paper: #0F1020;
+      --surface: #171933;
+      --ink: #F1F2FA;
+      --muted: #A3A7C4;
+      --line: #2A2D4F;
+      --brand: #7C89FF;
+      --onbrand: #0F1020;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* Tablero de ajedrez, 8 x 4 casillas */
+    .board {
+      aspect-ratio: 2 / 1;
+      border-radius: 1.5rem;
+      background-size: 25% 50%;
+      background-image: conic-gradient(rgba(255, 255, 255, .9) 25%, rgba(255, 255, 255, .22) 0 50%, rgba(255, 255, 255, .9) 0 75%, rgba(255, 255, 255, .22) 0);
+    }
+
+     body {
+      cursor: none;
+    }
+
+    @media (hover: none) {
+      body {
+        cursor: auto;
+      }
+
+      #cursorDot {
+        display: none;
+      }
+    }
+
+    #cursorDot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      margin: -7px;
+      border-radius: 50%;
+      background: #2ED3A5;
+      pointer-events: none;
+      z-index: 999;
+      transition: width .18s, height .18s, margin .18s, background-color .3s;
+    }
+
+    #cursorDot.big {
+      width: 46px;
+      height: 46px;
+      margin: -23px;
+      background: color-mix(in srgb, #2ED3A5 35%, transparent);
+    }
+
+    #secretDot {
+      opacity: .18;
+      transition: opacity .3s;
+    }
+
+    #secretDot:hover,
+    #secretDot:focus-visible {
+      opacity: 1;
+    }
+
+    #secretPanel[hidden] {
+      display: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .intro>* {
+        opacity: 0;
+        transform: translateY(14px);
+        animation: rise .7s cubic-bezier(.2, .7, .2, 1) forwards;
+      }
+
+      .intro>*:nth-child(2) {
+        animation-delay: .08s;
+      }
+
+      .intro>*:nth-child(3) {
+        animation-delay: .16s;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans antialiased">
+  <div id="cursorDot" aria-hidden="true"></div>
+
+  <a href="#contexto"
+    class="sr-only focus:not-sr-only focus:absolute focus:m-3 focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-onbrand">Saltar
+    al contenido</a>
+  <header class="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+      <a href="index.html" class="font-display text-lg font-extrabold tracking-tight">Raúl Estévez Montero</a>
+      <nav aria-label="Principal" class="flex items-center gap-1 text-sm font-medium sm:gap-3">
+        <a href="index.html#trabajos" class="rounded-lg px-3 py-2 hover:bg-surface">Trabajos</a>
+        <a href="index.html#proceso" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Proceso</a>
+        <a href="index.html#sobre-mi" class="hidden rounded-lg px-3 py-2 hover:bg-surface sm:block">Sobre mí</a>
+        <a href="index.html#contacto" class="rounded-lg px-3 py-2 hover:bg-surface">Contacto</a>
+        <button id="theme" type="button" class="rounded-full border border-line p-2 hover:bg-surface"
+          aria-label="Cambiar entre tema claro y oscuro">
+          <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+          </svg>
+          <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="mx-auto max-w-6xl px-5 pb-10 pt-12 lg:pt-16">
+      <a href="index.html#trabajos" class="text-sm font-bold text-brand underline underline-offset-4">Volver a los
+        trabajos</a>
+      <div class="intro mt-8 max-w-4xl">
+        <p class="text-muted">Proyecto propio · Plataforma educativa · Producto, UX/UI y contenido</p>
+        <h1 class="mt-4 font-display text-5xl font-extrabold leading-[1.03] tracking-tight sm:text-6xl">Aprende con Rey:
+          una plataforma para que más niños aprendan ajedrez.</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">Empezó como una serie de vídeos para enseñar
+          ajedrez a niños y hoy es una plataforma para colegios, clubes y entrenadores hispanohablantes.</p>
+        <a href="https://aprendeconrey.com"
+          class="mt-6 inline-block rounded-full bg-brand px-7 py-3.5 font-bold text-onbrand hover:opacity-90">Visitar la
+          plataforma</a>
+      </div>
+      <div class="relative mt-10 overflow-hidden rounded-[2rem] bg-brand p-6 sm:p-10" aria-hidden="true">
+        <div class="board relative mx-auto max-w-3xl">
+          <span
+            class="absolute left-[12.5%] top-[25%] h-[20%] w-[10%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-sun"></span>
+          <span
+            class="absolute left-[62.5%] top-[75%] h-[20%] w-[10%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-pink"></span>
+          <span
+            class="absolute left-[37.5%] top-[25%] h-[20%] w-[10%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-mint"></span>
+          <span
+            class="absolute left-[87.5%] top-[50%] h-[20%] w-[10%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#15172E]"></span>
+        </div>
+      </div>
+      <dl class="mt-8 grid grid-cols-2 gap-6 rounded-3xl border border-line bg-surface p-6 sm:p-8 md:grid-cols-4">
+        <div>
+          <dt class="text-sm text-muted">Mi rol</dt>
+          <dd class="mt-1 font-bold">Producto, UX/UI, contenido y negocio</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Equipo</dt>
+          <dd class="mt-1 font-bold">Dos personas: un desarrollador full-stack y yo</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Lanzamiento</dt>
+          <dd class="mt-1 font-bold">Noviembre de 2025</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Estado</dt>
+          <dd class="mt-1 font-bold">Beta gratuita, en crecimiento</dd>
+        </div>
+      </dl>
+    </section>
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 py-12 lg:grid-cols-[13rem_1fr]">
+      <aside class="hidden lg:block">
+        <nav aria-label="En esta página" class="sticky top-28">
+          <p class="font-bold">En este caso</p>
+          <ul class="mt-4 space-y-3 border-l border-line text-sm">
+            <li><a href="#contexto"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Contexto</a>
+            </li>
+            <li><a href="#rol"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Mi
+                rol</a></li>
+            <li><a href="#investigacion"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Investigación</a>
+            </li>
+            <li><a href="#plataforma"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">La
+                plataforma</a></li>
+            <li><a href="#resultados"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Resultados</a>
+            </li>
+            <li><a href="#pantallas"
+                class="-ml-px block border-l-2 border-transparent pl-4 text-muted hover:border-brand hover:text-ink">Interfaz</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="max-w-2xl space-y-20">
+        <section id="contexto" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Contexto</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">El proyecto nació de mi TFM en el que se creo una series de
+            animaciones para enseñar ajedrez a los niños de una forma divertida. Vi la oportunidad de convertirlo en
+            algo más grande: una plataforma completa, moderna y con metodología profesional, pensada para el entorno
+            educativo.</p>
+          <p class="mt-6 rounded-3xl bg-sun p-6 text-lg font-bold text-[#15172E]">¿Cómo hacer el ajedrez accesible y
+            efectivo para colegios, clubes y entrenadores?</p>
+        </section>
+        <section id="rol" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Mi rol</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">En un equipo de dos personas, cubro todo lo que no es
+            programar:</p>
+          <dl class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl border border-line bg-surface p-5">
+              <dt class="font-bold">Estrategia de producto</dt>
+              <dd class="mt-1 text-sm text-muted">Visión, roadmap, prioridades y decisiones.</dd>
+            </div>
+            <div class="rounded-3xl border border-line bg-surface p-5">
+              <dt class="font-bold">Diseño UX y UI</dt>
+              <dd class="mt-1 text-sm text-muted">Investigación, flujos, wireframes e interfaz completa.</dd>
+            </div>
+            <div class="rounded-3xl border border-line bg-surface p-5">
+              <dt class="font-bold">Producción de contenido</dt>
+              <dd class="mt-1 text-sm text-muted">Videotutoriales de animación 2D, fichas educativas y minijuegos.</dd>
+            </div>
+            <div class="rounded-3xl border border-line bg-surface p-5">
+              <dt class="font-bold">Negocio</dt>
+              <dd class="mt-1 text-sm text-muted">Modelo de negocio, estrategia freemium y monetización.</dd>
+            </div>
+          </dl>
+        </section>
+        <section id="investigacion" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Investigación: validar antes de
+            construir</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Antes de diseñar hablé con quienes iban a usar el producto,
+            para partir de sus necesidades reales y no de mis suposiciones. Tres grupos, tres aprendizajes:</p>
+          <div class="mt-6 space-y-4">
+            <article class="rounded-2xl border border-line bg-surface p-5">
+              <h3 class="font-bold">Profesores de colegio</h3>
+              <p class="mt-1 text-muted">Entendí cómo se organiza una clase de ajedrez, qué materiales faltan y qué les
+                cuesta para implicar a los alumnos.</p>
+              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
+                <li>Necesitan recursos listos para usar.</li>
+                <li>Tienen poco tiempo para preparar materiales.</li>
+                <li>Valoran el apoyo visual en el aula.</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl border border-line bg-surface p-5">
+              <h3 class="font-bold">Entrenadores de ajedrez</h3>
+              <p class="mt-1 text-muted">Conocí el ajedrez competitivo infantil, los clubes y las necesidades de
+                entrenar a niños pequeños.</p>
+              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
+                <li>Buscan puzzles por nivel de dificultad.</li>
+                <li>Quieren un tablero online para mostrar jugadas.</li>
+                <li>Piden contenido progresivo y estructurado.</li>
+              </ul>
+            </article>
+            <article class="rounded-2xl border border-line bg-surface p-5">
+              <h3 class="font-bold">Sector del ajedrez</h3>
+              <p class="mt-1 text-muted">Hablé con federaciones, organizadores de torneos y referentes del ajedrez
+                escolar en la Comunidad Valenciana.</p>
+              <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
+                <li>El ajedrez escolar está creciendo.</li>
+                <li>Faltan recursos en castellano.</li>
+                <li>Hay una oportunidad real sin cubrir.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section id="plataforma" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">La plataforma</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Diseñé dos perfiles con funciones y contenido adaptados a
+            cada rol, porque un profesor y un niño de seis años no necesitan lo mismo.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl bg-mint p-6 text-[#15172E]">
+              <h3 class="font-display text-2xl font-extrabold tracking-tight">Perfil educador</h3>
+              <p class="text-sm">Profesores y entrenadores</p>
+              <ul class="mt-4 list-disc space-y-2 pl-5">
+                <li>Tablero online interactivo para apoyar las clases.</li>
+                <li>Fichas y materiales descargables para imprimir.</li>
+                <li>Videotutoriales organizados por nivel y temática.</li>
+                <li>Puzzles clasificados por dificultad.</li>
+              </ul>
+            </div>
+            <div class="rounded-3xl bg-pink p-6 text-[#15172E]">
+              <h3 class="font-display text-2xl font-extrabold tracking-tight">Perfil alumno</h3>
+              <p class="text-sm">Niños y estudiantes</p>
+              <ul class="mt-4 list-disc space-y-2 pl-5">
+                <li>Videotutoriales con Rey como guía principal.</li>
+                <li>Puzzles adaptados a su nivel.</li>
+                <li>Tablero online para practicar jugadas.</li>
+                <li>Interfaz simplificada pensada para niños.</li>
+              </ul>
+            </div>
+          </div>
+          <h3 class="mt-10 text-xl font-bold">Funcionalidades clave</h3>
+          <dl class="mt-4 space-y-5">
+            <div>
+              <dt class="font-bold">Tablero de ajedrez online</dt>
+              <dd class="text-muted">Una herramienta digital creada para facilitar la enseñanza en el aula.</dd>
+            </div>
+            <div>
+              <dt class="font-bold">Videotutoriales</dt>
+              <dd class="text-muted">Explicaciones sencillas y divertidas para aprender ajedrez desde cero.</dd>
+            </div>
+            <div>
+              <dt class="font-bold">Puzzles de ajedrez</dt>
+              <dd class="text-muted">Ejercicios de táctica y estrategia para practicar solo, en clase o en casa.</dd>
+            </div>
+            <div>
+              <dt class="font-bold">Fichas descargables</dt>
+              <dd class="text-muted">Recursos listos para imprimir y usar en clases o entrenamientos.</dd>
+            </div>
+          </dl>
+        </section>
+        <section id="resultados" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Resultados</h2>
+          <p class="mt-5 text-lg leading-relaxed text-muted">Lanzamos la plataforma en noviembre de 2025 como beta
+            gratuita.</p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="rounded-3xl bg-brand p-6 text-onbrand sm:col-span-2">
+              <p class="font-display text-5xl font-extrabold">+5.000</p>
+              <p class="mt-1 opacity-90">registros totales.</p>
+            </div>
+            <div class="rounded-2xl border border-line bg-surface p-5">
+              <p class="font-display text-3xl font-extrabold">+1.200</p>
+              <p class="text-sm text-muted">educadores activos, entre profesores y entrenadores</p>
+            </div>
+            <div class="rounded-2xl border border-line bg-surface p-5">
+              <p class="font-display text-3xl font-extrabold">+4.000</p>
+              <p class="text-sm text-muted">alumnos registrados aprendiendo ajedrez</p>
+            </div>
+            <div class="rounded-2xl border border-line bg-surface p-5 sm:col-span-2">
+              <p class="font-display text-3xl font-extrabold">12 K</p>
+              <p class="text-sm text-muted">usuarios al mes jugando al ajedrez online</p>
+            </div>
+          </div>
+        </section>
+        <section id="pantallas" class="scroll-mt-28">
+          <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Interfaz del producto</h2>
+          <div class="mt-6 space-y-5">
+            <figure><img src="img/tablero-digital.jpg"
+                alt="Tablero digital de ajedrez de la plataforma" loading="lazy"
+                class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">Tablero digital para las clases.</figcaption>
+            </figure>
+            <figure><img src="img/grupo-examen.jpg"
+                alt="Pantalla de juegos y puzzles para alumnos" loading="lazy"
+                class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">Gestión prueba de nivel de la lección.</figcaption>
+            </figure>
+            <figure><img src="img/Minijuegos.jpg"
+                alt="Pantalla de perfil de usuario" loading="lazy" class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">Sección minijuegos.</figcaption>
+            </figure>
+             <figure><img src="img/mi-rendimiento.jpg"
+                alt="Tablero digital de ajedrez de la plataforma" loading="lazy"
+                class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">Perfil del rendimiento del usuario.</figcaption>
+            </figure>
+             <figure><img src="img/jugar-ajedrez.jpg"
+                alt="Tablero digital de ajedrez de la plataforma" loading="lazy"
+                class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">JUego de ajedrez online.</figcaption>
+            </figure>
+             <figure><img src="img/videos.jpg"
+                alt="Tablero digital de ajedrez de la plataforma" loading="lazy"
+                class="w-full rounded-2xl border border-line">
+              <figcaption class="mt-2 text-sm text-muted">Sección videos.</figcaption>
+            </figure>
+          </div>
+        </section>
+      </div>
+    </div>
+    <section class="mx-auto max-w-6xl px-5 py-12">
+      <div class="grid gap-4 sm:grid-cols-2">
+          <a href="index.html#trabajos" class="rounded-3xl bg-sun p-7 text-[#15172E] hover:opacity-90">
+          <p class="text-sm">Volver</p>
+          <p class="mt-1 font-display text-2xl font-extrabold tracking-tight">Todos los trabajos</p>
+        </a>
+        <a href="proyecto-finanedi.html" class="rounded-3xl border border-line bg-surface p-7 hover:border-brand">
+          <p class="text-sm text-muted">Caso siguiente</p>
+          <p class="mt-1 font-display text-2xl font-extrabold tracking-tight">FinanEDI</p>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer id="contacto" class="mt-10 bg-brand text-onbrand">
+    <div class="mx-auto max-w-6xl px-5 py-20">
+      <h2 class="font-display text-5xl font-extrabold tracking-tight sm:text-6xl">¿Hablamos?</h2>
+      <p class="mt-4 max-w-lg text-lg opacity-90">Si has llegado hasta aquí, ¿por qué no seguimos hablando?</p>
+      <a href="mailto:raesmon89@gmail.com"
+        class="mt-8 inline-block rounded-full bg-onbrand px-8 py-4 font-bold text-brand hover:opacity-90">raesmon89@gmail.com</a>
+      <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-medium underline underline-offset-4">
+        <li><a href="https://www.linkedin.com/in/raul-estevez-montero/" target="_blank"
+            rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://www.behance.net/rem89" target="_blank" rel="noopener noreferrer">Behance</a></li>
+      </ul>
+      <p class="mt-12 text-sm opacity-80">© 2026 Raúl Estévez Montero</p>
+    </div>
+  </footer>
+  <script>
+    document.getElementById('theme').addEventListener('click', function () {
+      var dark = document.documentElement.classList.toggle('dark');
+      try {localStorage.setItem('theme', dark ? 'dark' : 'light');} catch (e) { }
+    });
+     // Cursor reactivo
+  var dot = document.getElementById('cursorDot');
+  var dotX = 0, dotY = 0, mouseX = 0, mouseY = 0;
+  var hasFinePointer = matchMedia('(hover: hover)').matches;
+  if (hasFinePointer) {
+    window.addEventListener('mousemove', function (e) { mouseX = e.clientX; mouseY = e.clientY; });
+    (function loop() {
+      dotX += (mouseX - dotX) * 0.2;
+      dotY += (mouseY - dotY) * 0.2;
+      dot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button').forEach(function (el) {
+      el.addEventListener('mouseenter', function () { dot.classList.add('big'); });
+      el.addEventListener('mouseleave', function () { dot.classList.remove('big'); });
+    });
+  }
+ 
+  // Secreto oculto
+  var secretDot = document.getElementById('secretDot');
+  var secretPanel = document.getElementById('secretPanel');
+  secretDot.addEventListener('click', function () { secretPanel.hidden = false; });
+  document.getElementById('secretClose').addEventListener('click', function () { secretPanel.hidden = true; });
+  </script>
+</body>
+
+</html>
